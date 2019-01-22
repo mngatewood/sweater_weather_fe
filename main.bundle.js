@@ -44,8 +44,28 @@
 /* 0 */
 /***/ (function(module, exports) {
 
+	'use strict';
+
 	// This file is in the entry point in your webpack config.
-	"use strict";
+	var locationSearchInput = document.querySelector('.location-search-input');
+	var locationSearchSubmit = document.querySelector('.location-search-submit');
+
+	locationSearchInput.addEventListener('keyup', enableLocationSearchSubmit);
+
+	function enableLocationSearchSubmit() {
+	  if (locationSearchInput.value) {
+	    locationSearchSubmit.removeAttribute('disabled', true);
+	    locationSearchSubmit.addEventListener('click', searchLocation);
+	  } else {
+	    locationSearchSubmit.setAttribute('disabled', true);
+	    locationSearchSubmit.removeEventListener('click', searchLocation);
+	  }
+	}
+
+	function searchLocation() {
+	  event.preventDefault();
+	  alert("You clicked Submit");
+	}
 
 /***/ })
 /******/ ]);
