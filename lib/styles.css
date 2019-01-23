@@ -1,0 +1,60 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 24px;
+  text-align: center;
+  font-weight: 300;
+  background-color: rgba(242,243,247,1);
+}
+
+h1 {
+  position: relative;
+  top: 5vh;
+  font-size: 60px;
+  color: rgba(19,47,71,1)
+}
+
+.location-search-container {
+  position: absolute;
+  top: 30vh;
+  background-color: rgba(19,47,71,1);
+  height: 40vh;
+  width: 100vw;
+}
+
+form.location-search-form {
+  margin: 16vh;
+}
+
+form.location-search-form input {
+  background-color: rgba(242,243,247,1);
+}
+
+form.location-search-form input[type="text"] {
+  padding: 12px;
+  height: 30px;
+  width: 20rem;
+  margin: 0 24px;
+  font-size: 24px;
+}
+
+form.location-search-form input::placeholder,
+form.location-search-form input[type="submit"]:disabled {
+  color: rgba(107,146,179,1);
+}
+
+form.location-search-form input[type="submit"] {
+  padding: 11px;
+  font-size: 24px;
+  margin: 9px 1rem;
+}
+
+h3.view-favorites-link {
+  position: absolute;
+  bottom: 15vh;
+  left: 50vw;
+  margin-left: -50vw;
+  width: 100vw;
+  color: rgba(19,47,71,1);  
+}
