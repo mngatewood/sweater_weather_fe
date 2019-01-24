@@ -64,7 +64,6 @@
 
 	function searchLocation() {
 	  event.preventDefault();
-	  alert("You clicked Submit");
 	}
 
 /***/ })
