@@ -44,7 +44,7 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var _styles = __webpack_require__(1);
 
@@ -52,24 +52,91 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var locationSearchInput = document.querySelector('.location-search-input'); // This file is in the entry point in your webpack config.
-
-	var locationSearchSubmit = document.querySelector('.location-search-submit');
-
-	locationSearchInput.addEventListener('keyup', enableLocationSearchSubmit);
+	$(".location-search-input").keyup(enableLocationSearchSubmit);
 
 	function enableLocationSearchSubmit() {
-	  if (locationSearchInput.value) {
-	    locationSearchSubmit.removeAttribute('disabled', true);
-	    locationSearchSubmit.addEventListener('click', searchLocation);
+	  if ($(".location-search-input").val()) {
+	    $(".location-search-submit").prop("disabled", false);
+	    // jQuery selector causes propagation issues below, patched with vanilla JS
+	    // $(".location-search-submit").click(searchLocation)
+	    document.querySelector(".location-search-submit").addEventListener("click", searchLocation);
 	  } else {
-	    locationSearchSubmit.setAttribute('disabled', true);
-	    locationSearchSubmit.removeEventListener('click', searchLocation);
+	    $(".location-search-submit").prop("disabled", true);
+	    $(".location-search-submit").off("click");
 	  }
 	}
 
 	function searchLocation() {
 	  event.preventDefault();
+	  var location = $(".location-search-input").val();
+	  var data = fetchWeather(location);
+	  renderWeather(data);
+	}
+
+	// refactor and move to fetch.js
+
+	function fetchWeather(location) {
+	  var params = location.replace(/\s/g, '');
+	  var url = "https://mngatewood-weather-be.herokuapp.com/api/v1/forecast?location=" + params;
+	  var request = new XMLHttpRequest();
+	  var data = void 0;
+
+	  request.open("GET", url, false);
+	  request.onload = function () {
+	    var response = JSON.parse(request.responseText).data;
+	    data = apiCleaner(response);
+	  };
+	  request.send();
+	  return data;
+	}
+
+	// move to render.js
+
+	function renderWeather(data) {
+	  $("#landing-page-container").hide();
+	  renderCurrentConditions(data);
+	  renderLocationAndDateTime(data);
+	}
+
+	function renderCurrentConditions(data) {
+	  var current = data.attributes.current;
+
+	  $("#app-container").append("<section id=\"current-conditions-container\">\n      <h3 class=\"current-overview\">" + current.summary + "</h3>\n      <div id=\"current-temp-container\">\n        <h2 class=\"current-temp\">" + current.temperature + "&deg;</h2>\n      </div>\n      <h3 class=\"feels-like\">Feels like " + current.apparentTemperature + "&deg;</h3>\n    </section>");
+	}
+
+	function renderLocationAndDateTime(data) {
+	  var attributes = data.attributes;
+
+	  $("#app-container").append("<section id=\"location-date-container\">\n      <div id=\"location-container\">\n        <h2 class=\"city\">" + attributes.city + "</h2>\n        <h3 class=\"state-country\">" + attributes.state + ", " + attributes.country + "</h3>\n      </div>\n      <div id=\"date-time-container\">\n        <h3 class=\"date\">" + attributes.current.date + "</h3>\n        <h3 class=\"time\">" + attributes.current.time + "</h3>\n      </div>\n    </section>");
+	}
+
+	// move to apiHelper.js
+
+	function apiCleaner(data) {
+	  var current = data.attributes.current;
+	  current.date = convertUnixTime(current.time).date;
+	  current.time = convertUnixTime(current.time).time;
+	  current.temperature = Math.round(current.temperature);
+	  current.apparentTemperature = Math.round(current.apparentTemperature);
+	  return data;
+	}
+
+	function convertUnixTime(time) {
+	  var date = new Date(time * 1000);
+	  var month = date.toLocaleString('en-us', { month: 'long' });
+	  var hours = date.getHours();
+	  var minutes = "0" + date.getMinutes();
+	  return {
+	    date: month + " " + date.getDate() + ", " + date.getFullYear(),
+	    time: convert24HourTime(hours, minutes.substr(-2)) };
+	}
+
+	function convert24HourTime(hours, minutes) {
+	  if (hours > 12) {
+	    return hours - 12 + ":" + minutes + "PM";
+	  } else {
+	    return hours + ":" + minutes + "AM";
+	  }
 	}
 
 /***/ }),
@@ -82,7 +149,7 @@
 	var content = __webpack_require__(2);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
+	var update = __webpack_require__(5)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -107,7 +174,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  margin: 0;\n  padding: 0;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 24px;\n  text-align: center;\n  font-weight: 300;\n  background-color: rgba(242,243,247,1);\n}\n\nh1 {\n  position: relative;\n  top: 5vh;\n  font-size: 60px;\n  color: rgba(19,47,71,1)\n}\n\n.location-search-container {\n  position: absolute;\n  top: 30vh;\n  background-color: rgba(19,47,71,1);\n  height: 40vh;\n  width: 100vw;\n}\n\nform.location-search-form {\n  margin: 16vh;\n}\n\nform.location-search-form input {\n  background-color: rgba(242,243,247,1);\n}\n\nform.location-search-form input[type=\"text\"] {\n  padding: 12px;\n  height: 30px;\n  width: 20rem;\n  margin: 0 24px;\n  font-size: 24px;\n}\n\nform.location-search-form input::placeholder,\nform.location-search-form input[type=\"submit\"]:disabled {\n  color: rgba(107,146,179,1);\n}\n\nform.location-search-form input[type=\"submit\"] {\n  padding: 11px;\n  font-size: 24px;\n  margin: 9px 1rem;\n}\n\nh3.view-favorites-link {\n  position: absolute;\n  bottom: 15vh;\n  left: 50vw;\n  margin-left: -50vw;\n  width: 100vw;\n  color: rgba(19,47,71,1);  \n}", ""]);
+	exports.push([module.id, "body {\n  margin: 0;\n  padding: 0;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 24px;\n  text-align: center;\n  font-weight: 300;\n  background-color: rgba(107,146,179,1);\n  background: url(" + __webpack_require__(4) + ");\n  background-repeat: no-repeat;\n  background-size: auto 100vh;\n  color: rgba(19,47,71,1);\n}\n\nh1 {\n  position: relative;\n  top: 5vh;\n  font-size: 60px;\n  color: rgba(19,47,71,1)\n}\n\n.location-search-container {\n  position: absolute;\n  top: 30vh;\n  background-color: rgba(19,47,71,1);\n  height: 40vh;\n  width: 100vw;\n}\n\nform.location-search-form {\n  margin: 16vh;\n}\n\nform.location-search-form input {\n  background-color: rgba(242,243,247,1);\n}\n\nform.location-search-form input[type=\"text\"] {\n  padding: 12px;\n  height: 30px;\n  width: 20rem;\n  margin: 0 24px;\n  font-size: 24px;\n}\n\nform.location-search-form input::placeholder,\nform.location-search-form input[type=\"submit\"]:disabled {\n  color: rgba(107,146,179,1);\n}\n\nform.location-search-form input[type=\"submit\"] {\n  padding: 11px;\n  font-size: 24px;\n  margin: 9px 1rem;\n}\n\nh3.view-favorites-link {\n  position: absolute;\n  bottom: 15vh;\n  left: 50vw;\n  margin-left: -50vw;\n  width: 100vw;\n  color: rgba(19,47,71,1);  \n}\n\nsection#location-date-container {\n  display: flex;\n  position: absolute;\n  bottom: 0;\n  left: 50vw;\n  width: 90vw;\n  height: 200px;\n  margin-left: -45vw;\n  background-color: rgba(242,243,247,0.8);\n  border-radius: 24px 24px 0 0;\n}\n\ndiv#location-container,\ndiv#date-time-container {\n  width: 50%;\n}\n\ndiv#location-container {\n  text-align: left;\n}\n\ndiv#date-time-container {\n  text-align: right;\n} \n\nh2.city {\n  font-size: 80px;\n  margin: 0 0 0 24px;\n  padding-bottom: 0;\n}\n\nh3.state-country {\n  margin: 0 0 0 24px;\n}\n\nh3.date,\nh3.time {\n  margin: 16px 24px 0 0;\n  font-size: 36px;\n  font-weight: 200;\n}\n\nh3.date {\n  margin-top: 24px;\n}\n\nsection#current-conditions-container {\n  position: absolute;\n  top: 48px;\n  right: 0;\n  width: 300px;\n  height: 275px;\n  background-color: rgba(242,243,247,0.8);\n  border-radius: 24px 0 0 24px;\n  padding: 0 48px 0 0;\n}\n\nh3.current-overview {\n  text-align: right;\n  font-size: 36px;\n  font-weight: 400;\n  margin: 32px 0 0 0;\n}\n\ndiv#current-temp-container {\n  display: flex;\n  justify-content: flex-end;\n}\n\nh2.current-temp {\n  font-size: 100px;\n  margin: -16px 0;\n}\n\nh3.feels-like {\n  text-align: right;\n  font-size: 36px;\n  font-weight: 200;\n  margin: 0;\n}", ""]);
 
 	// exports
 
@@ -170,6 +237,12 @@
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "a06c72e7aed9ffcdd7f89314e2e5cf2e.jpg";
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
