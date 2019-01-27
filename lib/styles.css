@@ -74,8 +74,6 @@ section#footer-container {
 }
 
 div.view-favorites-container {
-/*   display: flex;
-  justify-content: space-around; */
   margin: 54px;
 }
 
@@ -259,15 +257,23 @@ div.links-container {
   justify-content: space-between;
 }
 
-section#change-location-container {
+section#change-location-container,
+section#refresh-confirmation-container,
+section#add-favorite-confirmation-container {
   position: relative;
   height: 300px;
   background-color: rgba(19,47,71,1); 
+}
+
+section#refresh-confirmation-container h3,
+section#add-favorite-confirmation-container h3 {
+  color: rgba(242,243,247,1);
+  margin: 112px 48px;
 }
 
 a.collapse-footer {
   position: absolute;
   top: 24px;
   right: 24px;
-  color: rgba(242, 243, 247, 1);
+  color: rgba(242,243,247,1);
 }
