@@ -270,7 +270,6 @@
 	  $("#favorite-locations").empty();
 	  $(".favorites-date-time").remove();
 	  if (favorites.length) {
-	    console.log(favorites, location);
 	    renderFavoritesTime(favorites[0].attributes.current_weather);
 	    renderFavoritesLocations(favorites);
 	  } else {
