@@ -93,10 +93,14 @@
 	// move to render.js
 
 	function renderWeather(data) {
-	  $("#landing-page-container").hide();
-	  renderCurrentConditions(data);
-	  renderLocationAndDateTime(data);
-	  $(".current-conditions").hover(expandCurrentConditions, collapseCurrentConditions);
+	  $("#footer-container").css("max-height", "200px");
+	  setTimeout(function () {
+	    $("#app-container").empty();
+	    renderCurrentConditions(data);
+	    renderLocationAndDateTime(data);
+	    $(".current-conditions").hover(expandCurrentConditions, collapseCurrentConditions);
+	    $(".change-location").click(renderChangeLocation);
+	  }, 1000);
 	}
 
 	function renderCurrentConditions(data) {
@@ -108,21 +112,39 @@
 	function renderLocationAndDateTime(data) {
 	  var location = data.attributes;
 
-	  $("#app-container").append("<section id=\"footer-container\">\n      <div id=\"location-date-container\">\n        <div id=\"location-container\">\n          <h2 class=\"city\">" + location.city + "</h2>\n          <h3 class=\"state-country\">" + location.state + ", " + location.country + "</h3>\n        </div>\n        <div id=\"date-time-container\">\n          <h3 class=\"date\">" + location.current.date + "</h3>\n          <h3 class=\"time\">" + location.current.time + "</h3>\n        </div>\n      </div>\n      <div class=\"links-container\">\n        <a href=\"#\">Change Location</a>\n        <a href=\"#\">Add Favorite</a>\n        <a href=\"#\">View Favorites</a>\n        <a href=\"#\">Refresh</a>\n      </div>\n    </section>");
+	  $("#app-container").append("<section id=\"footer-container\">\n      <div id=\"location-date-container\">\n        <div id=\"location-container\">\n          <h2 class=\"city\">" + location.city + "</h2>\n          <h3 class=\"state-country\">" + location.state + ", " + location.country + "</h3>\n        </div>\n        <div id=\"date-time-container\">\n          <h3 class=\"date\">" + location.current.date + "</h3>\n          <h3 class=\"time\">" + location.current.time + "</h3>\n        </div>\n      </div>\n      <div class=\"links-container\">\n        <a href=\"javascript:void(0)\" class=\"change-location\">Change Location</a>\n        <a href=\"#\">Add Favorite</a>\n        <a href=\"#\">View Favorites</a>\n        <a href=\"#\">Refresh</a>\n      </div>\n    </section>");
 	}
 
 	function expandCurrentConditions() {
-	  $("#current-conditions-container").height("auto");
+	  $("#current-conditions-container").css("max-height", "600px");
 	  $(".expand-current-conditions").css("background-color", "unset");
 	  $(".current-conditions").text("Current Conditions");
 	  $(".current-conditions").css("color", "rgba(19, 47, 71, 1)");
 	}
 
 	function collapseCurrentConditions() {
-	  $("#current-conditions-container").height("278px");
-	  $(".expand-current-conditions").css("background-color", "rgba(107, 146, 179, 1)");
-	  $(".current-conditions").text("Expand Current Conditions");
-	  $(".current-conditions").css("color", "rgba(242, 243, 247, 1)");
+	  $("#current-conditions-container").css("max-height", "278px");
+	  setTimeout(function () {
+	    $(".expand-current-conditions").css("background-color", "rgba(107, 146, 179, 1)");
+	    $(".current-conditions").text("Expand Current Conditions");
+	    $(".current-conditions").css("color", "rgba(242, 243, 247, 1)");
+	  }, 1000);
+	}
+
+	function renderChangeLocation() {
+	  $("#footer-container").append("<section id=\"change-location-container\" class=\"expanded-footer-container\">\n      <form class=\"location-search-form\">\n        <input class=\"location-search-input\" type=\"text\" placeholder=\"Search for a location\" aria-label=\"input for search location\">\n        <input class=\"location-search-submit\" type=\"submit\" disabled>\n      </form>\n      <a href=\"javascript:void(0)\" class=\"collapse-footer\">Close</a>\n    </section> ");
+	  $("#footer-container").css("max-height", "500px");
+	  $(".location-search-input").keyup(enableLocationSearchSubmit);
+	  $(".collapse-footer").click(collapseFooter);
+	  $(".change-location").off("click").click(collapseFooter);
+	}
+
+	function collapseFooter() {
+	  $("#footer-container").css("max-height", "200px");
+	  $(".change-location").off("click").click(renderChangeLocation);
+	  setTimeout(function () {
+	    $(".expanded-footer-container").remove();
+	  }, 1000);
 	}
 
 	// move to apiHelper.js
@@ -210,7 +232,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  margin: 0;\n  padding: 0;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 24px;\n  text-align: center;\n  font-weight: 300;\n  background-color: rgba(107,146,179,1);\n  background: url(" + __webpack_require__(4) + ");\n  background-repeat: no-repeat;\n  background-size: auto 100vh;\n  color: rgba(19,47,71,1);\n}\n\nh1 {\n  position: relative;\n  top: 5vh;\n  font-size: 60px;\n  color: rgba(19,47,71,1)\n}\n\n.location-search-container {\n  position: absolute;\n  top: 30vh;\n  background-color: rgba(19,47,71,1);\n  height: 40vh;\n  width: 100vw;\n}\n\nform.location-search-form {\n  margin: 16vh;\n}\n\nform.location-search-form input {\n  background-color: rgba(242,243,247,1);\n}\n\nform.location-search-form input[type=\"text\"] {\n  padding: 12px;\n  height: 30px;\n  width: 20rem;\n  margin: 0 24px;\n  font-size: 24px;\n}\n\nform.location-search-form input::placeholder,\nform.location-search-form input[type=\"submit\"]:disabled {\n  color: rgba(107,146,179,1);\n}\n\nform.location-search-form input[type=\"submit\"] {\n  padding: 11px;\n  font-size: 24px;\n  margin: 9px 1rem;\n}\n\nh3.view-favorites-link {\n  position: absolute;\n  bottom: 15vh;\n  left: 50vw;\n  margin-left: -50vw;\n  width: 100vw;\n  color: rgba(19,47,71,1);  \n}\n\nsection#footer-container {\n  display: flex;\n  flex-direction: column;\n  position: absolute;\n  bottom: 0;\n  left: 50vw;\n  width: 90vw;\n  height: 200px;\n  margin-left: -45vw;\n  background-color: rgba(242,243,247,0.8);\n  border-radius: 24px 24px 0 0;\n}\n\ndiv#location-date-container {\n  display: flex;\n  flex-direction: row;\n}\n\ndiv#location-container,\ndiv#date-time-container {\n  width: 50%;\n}\n\ndiv#location-container {\n  text-align: left;\n}\n\ndiv#date-time-container {\n  text-align: right;\n} \n\nh2.city {\n  font-size: 80px;\n  margin: 0 0 0 24px;\n  padding-bottom: 0;\n}\n\nh3.state-country {\n  margin: 0 0 0 24px;\n}\n\nh3.date,\nh3.time {\n  margin: 16px 24px 0 0;\n  font-size: 36px;\n  font-weight: 200;\n}\n\nh3.date {\n  margin-top: 24px;\n}\n\nsection#current-conditions-container {\n  position: absolute;\n  top: 48px;\n  right: 0;\n  width: 300px;\n  height: 278px;\n  background-color: rgba(242,243,247,0.8);\n  border-radius: 24px 0 0 24px;\n  padding: 0 48px;\n  overflow: hidden;\n}\n\nsection#current-conditions-overview-container {\n  padding-top: 32px;\n}\n\nsection#current-conditions-detail-container {\n  padding-bottom: 12px;\n}\n\nh3.current-overview {\n  text-align: right;\n  font-size: 36px;\n  font-weight: 400;\n  margin: 0;\n}\n\ndiv#current-temp-container {\n  display: flex;\n  justify-content: flex-end;\n}\n\nh2.current-temp {\n  font-size: 100px;\n  margin: -16px 0;\n}\n\nh3.feels-like {\n  text-align: right;\n  font-size: 36px;\n  font-weight: 200;\n  margin: 0;\n}\n\ndiv.expand-current-conditions {\n  height: 36px;\n  margin: 0 -48px;\n  background-color: rgba(107,146,179,1);\n  border-radius: 0 0 0 24px;\n}\n\nh4 {\n  font-weight: 200;\n  margin: 8px -16px;\n}\n\nh4.current-conditions {\n  color: rgba(242, 243, 247, 1);\n  text-decoration: underline;\n}\n\ndiv.high-low-container {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n\ndiv.high-low-container h4 {\n  margin: 8px 24px;\n}\n\nh4.day-summary {\n  text-align: left;\n}\n\ndiv.current-detail-container {\n  display: flex;\n  justify-content: space-between;\n}\n\ndiv.links-container {\n  display: flex;\n  padding: 6px 24px;\n  justify-content: space-between;\n}\n", ""]);
+	exports.push([module.id, "body {\n  margin: 0;\n  padding: 0;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 24px;\n  text-align: center;\n  font-weight: 300;\n  background-color: rgba(107,146,179,1);\n  background: url(" + __webpack_require__(4) + ");\n  background-repeat: no-repeat;\n  background-size: auto 100vh;\n  color: rgba(19,47,71,1);\n}\n\nh1 {\n  position: relative;\n  top: 5vh;\n  font-size: 60px;\n  color: rgba(19,47,71,1)\n}\n\n.location-search-container {\n  position: absolute;\n  top: 30vh;\n  background-color: rgba(19,47,71,1);\n  height: 40vh;\n  width: 100vw;\n}\n\nform.location-search-form {\n  margin: 16vh;\n}\n\nform.location-search-form input {\n  background-color: rgba(242,243,247,1);\n}\n\nform.location-search-form input[type=\"text\"] {\n  padding: 12px;\n  height: 30px;\n  width: 20rem;\n  margin: 0 24px;\n  font-size: 24px;\n}\n\nform.location-search-form input::placeholder,\nform.location-search-form input[type=\"submit\"]:disabled {\n  color: rgba(107,146,179,1);\n}\n\nform.location-search-form input[type=\"submit\"] {\n  padding: 11px;\n  font-size: 24px;\n  margin: 9px 1rem;\n}\n\nh3.view-favorites-link {\n  position: absolute;\n  bottom: 15vh;\n  left: 50vw;\n  margin-left: -50vw;\n  width: 100vw;\n  color: rgba(19,47,71,1);  \n}\n\nsection#footer-container {\n  display: flex;\n  flex-direction: column;\n  position: absolute;\n  bottom: 0;\n  left: 50vw;\n  width: 90vw;\n  margin-left: -45vw;\n  background-color: rgba(242,243,247,0.8);\n  border-radius: 24px 24px 0 0;\n  max-height: 200px;\n  transition: max-height 1s;\n}\n\ndiv#location-date-container {\n  display: flex;\n  flex-direction: row;\n}\n\ndiv#location-container,\ndiv#date-time-container {\n  width: 50%;\n}\n\ndiv#location-container {\n  text-align: left;\n}\n\ndiv#date-time-container {\n  text-align: right;\n} \n\nh2.city {\n  font-size: 80px;\n  margin: 0 0 0 24px;\n  padding-bottom: 0;\n}\n\nh3.state-country {\n  margin: 0 0 0 24px;\n}\n\nh3.date,\nh3.time {\n  margin: 16px 24px 0 0;\n  font-size: 36px;\n  font-weight: 200;\n}\n\nh3.date {\n  margin-top: 24px;\n}\n\nsection#current-conditions-container {\n  position: absolute;\n  top: 48px;\n  right: 0;\n  width: 300px;\n  max-height: 278px;\n  overflow: hidden;\n  background-color: rgba(242,243,247,0.8);\n  border-radius: 24px 0 0 24px;\n  padding: 0 48px;\n  transition: max-height 1s;\n}\n\nsection#current-conditions-overview-container {\n  padding-top: 32px;\n}\n\nsection#current-conditions-detail-container {\n  padding-bottom: 12px;\n}\n\nh3.current-overview {\n  text-align: right;\n  font-size: 36px;\n  font-weight: 400;\n  margin: 0;\n}\n\ndiv#current-temp-container {\n  display: flex;\n  justify-content: flex-end;\n}\n\nh2.current-temp {\n  font-size: 100px;\n  margin: -16px 0;\n}\n\nh3.feels-like {\n  text-align: right;\n  font-size: 36px;\n  font-weight: 200;\n  margin: 0;\n}\n\ndiv.expand-current-conditions {\n  height: 36px;\n  margin: 0 -48px;\n  background-color: rgba(107,146,179,1);\n  border-radius: 0 0 0 24px;\n}\n\nh4 {\n  font-weight: 200;\n  margin: 8px -16px;\n}\n\nh4.current-conditions {\n  color: rgba(242, 243, 247, 1);\n  text-decoration: underline;\n}\n\ndiv.high-low-container {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n\ndiv.high-low-container h4 {\n  margin: 8px 24px;\n}\n\nh4.day-summary {\n  text-align: left;\n}\n\ndiv.current-detail-container {\n  display: flex;\n  justify-content: space-between;\n}\n\ndiv.links-container {\n  display: flex;\n  padding: 6px 24px;\n  justify-content: space-between;\n}\n\nsection#change-location-container {\n  position: relative;\n  height: 300px;\n  background-color: rgba(19,47,71,1); \n}\n\na.collapse-footer {\n  position: absolute;\n  top: 24px;\n  right: 24px;\n  color: rgba(241, 243, 247, 1);\n}", ""]);
 
 	// exports
 

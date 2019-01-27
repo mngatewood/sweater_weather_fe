@@ -70,10 +70,11 @@ section#footer-container {
   bottom: 0;
   left: 50vw;
   width: 90vw;
-  height: 200px;
   margin-left: -45vw;
   background-color: rgba(242,243,247,0.8);
   border-radius: 24px 24px 0 0;
+  max-height: 200px;
+  transition: max-height 1s;
 }
 
 div#location-date-container {
@@ -120,11 +121,12 @@ section#current-conditions-container {
   top: 48px;
   right: 0;
   width: 300px;
-  height: 278px;
+  max-height: 278px;
+  overflow: hidden;
   background-color: rgba(242,243,247,0.8);
   border-radius: 24px 0 0 24px;
   padding: 0 48px;
-  overflow: hidden;
+  transition: max-height 1s;
 }
 
 section#current-conditions-overview-container {
@@ -199,4 +201,17 @@ div.links-container {
   display: flex;
   padding: 6px 24px;
   justify-content: space-between;
+}
+
+section#change-location-container {
+  position: relative;
+  height: 300px;
+  background-color: rgba(19,47,71,1); 
+}
+
+a.collapse-footer {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: rgba(241, 243, 247, 1);
 }
