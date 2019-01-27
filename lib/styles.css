@@ -14,14 +14,19 @@ body {
 
 h1 {
   position: relative;
-  top: 5vh;
+  top: -3vh;
   font-size: 60px;
-  color: rgba(19,47,71,1)
+  z-index: 1;
+  text-align: left;
+  margin: 36px;
+  -webkit-text-stroke: 1px black;
+  color: white;
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 .location-search-container {
   position: absolute;
-  top: 30vh;
+  top: 0;
   background-color: rgba(19,47,71,1);
   height: 40vh;
   width: 100vw;
@@ -54,15 +59,6 @@ form.location-search-form input[type="submit"] {
   margin: 9px 1rem;
 }
 
-h3.view-favorites-link {
-  position: absolute;
-  bottom: 15vh;
-  left: 50vw;
-  margin-left: -50vw;
-  width: 100vw;
-  color: rgba(19,47,71,1);  
-}
-
 section#footer-container {
   display: flex;
   flex-direction: column;
@@ -74,7 +70,61 @@ section#footer-container {
   background-color: rgba(242,243,247,0.8);
   border-radius: 24px 24px 0 0;
   max-height: 200px;
-  transition: max-height 1s;
+  transition: max-height 0.5s;
+}
+
+div.view-favorites-container {
+/*   display: flex;
+  justify-content: space-around; */
+  margin: 54px;
+}
+
+div.view-favorites-container h3.favorites-date-time {
+  position: absolute;
+  top: 54px;
+  right: 24px;
+}
+
+div.view-favorites-container a.collapse-footer {
+  color: rgba(19,47,71,1);
+}
+
+h3.view-favorites-link,
+div.favorite-location-container h4.favorite-location-location {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+section#favorites-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px;
+  height: 40vh;
+  background-color: rgba(19,47,71,1);
+  color: rgba(242, 243, 247, 1);
+  overflow: scroll;
+}
+
+div#favorite-locations {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
+div.favorite-location-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+div.favorite-location-container h4 {
+  width: 200px;
+  margin: 6px 24px;
+  text-align: left;
+}
+
+div.favorite-location-container h4.favorite-location-temp {
+  width: 100px;
 }
 
 div#location-date-container {
@@ -126,7 +176,8 @@ section#current-conditions-container {
   background-color: rgba(242,243,247,0.8);
   border-radius: 24px 0 0 24px;
   padding: 0 48px;
-  transition: max-height 1s;
+  transition: max-height 0.5s;
+  z-index: 99;
 }
 
 section#current-conditions-overview-container {
@@ -176,6 +227,7 @@ h4 {
 h4.current-conditions {
   color: rgba(242, 243, 247, 1);
   text-decoration: underline;
+  cursor: pointer;
 }
 
 div.high-low-container {
@@ -186,6 +238,10 @@ div.high-low-container {
 
 div.high-low-container h4 {
   margin: 8px 24px;
+}
+
+section#current-conditions-detail-container h4 {
+  font-size: 22px;
 }
 
 h4.day-summary {
@@ -213,5 +269,5 @@ a.collapse-footer {
   position: absolute;
   top: 24px;
   right: 24px;
-  color: rgba(241, 243, 247, 1);
+  color: rgba(242, 243, 247, 1);
 }
