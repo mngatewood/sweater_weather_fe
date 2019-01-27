@@ -114,17 +114,26 @@ section#current-conditions-container {
   top: 48px;
   right: 0;
   width: 300px;
-  height: 275px;
+  height: 278px;
   background-color: rgba(242,243,247,0.8);
   border-radius: 24px 0 0 24px;
-  padding: 0 48px 0 0;
+  padding: 0 48px;
+  overflow: hidden;
+}
+
+section#current-conditions-overview-container {
+  padding-top: 32px;
+}
+
+section#current-conditions-detail-container {
+  padding-bottom: 12px;
 }
 
 h3.current-overview {
   text-align: right;
   font-size: 36px;
   font-weight: 400;
-  margin: 32px 0 0 0;
+  margin: 0;
 }
 
 div#current-temp-container {
@@ -143,3 +152,40 @@ h3.feels-like {
   font-weight: 200;
   margin: 0;
 }
+
+div.expand-current-conditions {
+  height: 36px;
+  margin: 0 -48px;
+  background-color: rgba(107,146,179,1);
+  border-radius: 0 0 0 24px;
+}
+
+h4 {
+  font-weight: 200;
+  margin: 8px -16px;
+}
+
+h4.current-conditions {
+  color: rgba(242, 243, 247, 1);
+  text-decoration: underline;
+}
+
+div.high-low-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+div.high-low-container h4 {
+  margin: 8px 24px;
+}
+
+h4.day-summary {
+  text-align: left;
+}
+
+div.current-detail-container {
+  display: flex;
+  justify-content: space-between;
+}
+
