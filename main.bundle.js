@@ -87,6 +87,7 @@
 	  }).catch(function (error) {
 	    return console.error({ error: error });
 	  });
+
 	}
 
 	// move to render.js
@@ -137,6 +138,7 @@
 	  current.humidity = current.humidity * 100 + "%";
 	  current.visibility = current.visibility + " miles";
 	  current.uvIndex = getUvIndexLevel(current.uvIndex);
+
 	  return data;
 	}
 
