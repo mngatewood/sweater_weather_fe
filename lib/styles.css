@@ -88,7 +88,8 @@ div.view-favorites-container a.collapse-footer {
 }
 
 h3.view-favorites-link,
-div.favorite-location-container h4.favorite-location-location {
+div.favorite-location-container h4.favorite-location-location,
+div.favorite-location-container h4.delete-favorite-link {
   text-decoration: underline;
   cursor: pointer;
 }
