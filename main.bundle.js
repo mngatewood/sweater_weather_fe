@@ -125,6 +125,29 @@
 	  });
 	}
 
+	function fetchDeleteFavorite(favoriteId, location) {
+	  var apiKey = window.localStorage.getItem("apiKey");
+	  var url = "https://mngatewood-weather-be.herokuapp.com/api/v1/favorites";
+	  var body = {
+	    id: favoriteId,
+	    api_key: apiKey
+	  };
+
+	  fetch(url, {
+	    method: "DELETE",
+	    headers: { "Content-Type": "application/json" },
+	    body: JSON.stringify(body)
+	  }).then(function (response) {
+	    return response.json();
+	  }).then(function (json) {
+	    return favoritesCleaner(json.data);
+	  }).then(function (favorites) {
+	    return renderDeleteFavorite(favorites, location);
+	  }).catch(function (error) {
+	    return console.error({ error: error });
+	  });
+	}
+
 	// move to render.js
 
 	function renderWeather(data) {
@@ -198,9 +221,9 @@
 	}
 
 	function renderFavorites(favorites) {
-	  renderFavoritesTime(favorites[0].attributes.current_weather);
 	  renderFavoritesContainer();
 	  if (favorites.length) {
+	    renderFavoritesTime(favorites[0].attributes.current_weather);
 	    renderFavoritesLocations(favorites);
 	  } else {
 	    renderFavoritesNone();
@@ -222,12 +245,12 @@
 
 	function renderFavoritesLocations(favorites) {
 	  favorites.forEach(function (favorite) {
-	    $("#favorite-locations").append("<div class=\"favorite-location-container\">\n        <h4 id=\"favorite-" + favorite.attributes.location + "\" \n          class=\"favorite-location-location\">" + favorite.attributes.location + "</h4>\n        <h4>" + favorite.attributes.current_weather.summary + "</h4>\n        <h4 class=\"favorite-location-temp\">" + favorite.attributes.current_weather.temperature + "&deg;</h4>\n        <h4>Feels like " + favorite.attributes.current_weather.apparentTemperature + "&deg;</h4>\n      </div>");
+	    $("#favorite-locations").append("<div id=\"" + favorite.id + "\" class=\"favorite-location-container\">\n        <h4 class=\"favorite-location-location\">" + favorite.attributes.location + "</h4>\n        <h4>" + favorite.attributes.current_weather.summary + "</h4>\n        <h4 class=\"favorite-location-temp\">" + favorite.attributes.current_weather.temperature + "&deg;</h4>\n        <h4>Feels like " + favorite.attributes.current_weather.apparentTemperature + "&deg;</h4>\n        <h4 class=\"delete-favorite-link\">Delete</h4>\n      </div>");
 	  });
 	}
 
 	function renderFavoritesNone() {
-	  $("#footer-container").append("<h2>You don't have any favorite locations saved.</h2>");
+	  $("#favorite-locations").append("<h3>You don't have any favorite locations saved.</h3>");
 	}
 
 	function updateFavoritesEventHandlers() {
@@ -236,6 +259,29 @@
 	  $(".favorite-location-location").click(function (event) {
 	    fetchWeather($(this).text());
 	  });
+	  $(".delete-favorite-link").click(function (event) {
+	    var favoriteId = $(this).parent().attr('id');
+	    var location = $(this).siblings(".favorite-location-location").text();
+	    fetchDeleteFavorite(favoriteId, location);
+	  });
+	}
+
+	function renderDeleteFavorite(favorites, location) {
+	  $("#favorite-locations").empty();
+	  $(".favorites-date-time").remove();
+	  if (favorites.length) {
+	    console.log(favorites, location);
+	    renderFavoritesTime(favorites[0].attributes.current_weather);
+	    renderFavoritesLocations(favorites);
+	  } else {
+	    renderFavoritesNone();
+	  }
+	  renderDeleteFavoriteConfirmation(location);
+	  updateFavoritesEventHandlers();
+	}
+
+	function renderDeleteFavoriteConfirmation(location) {
+	  $("#favorite-locations").prepend("<h4><strong>" + location + " has been successfully removed from your favorites.</strong></h4>");
 	}
 
 	function renderAddFavoriteConfirmation(favorite) {
@@ -359,7 +405,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  margin: 0;\n  padding: 0;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 24px;\n  text-align: center;\n  font-weight: 300;\n  background-color: rgba(107,146,179,1);\n  background: url(" + __webpack_require__(4) + ");\n  background-repeat: no-repeat;\n  background-size: auto 100vh;\n  color: rgba(19,47,71,1);\n}\n\nh1 {\n  position: relative;\n  top: -3vh;\n  font-size: 60px;\n  z-index: 1;\n  text-align: left;\n  margin: 36px;\n  -webkit-text-stroke: 1px black;\n  color: white;\n  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;\n}\n\n.location-search-container {\n  position: absolute;\n  top: 0;\n  background-color: rgba(19,47,71,1);\n  height: 40vh;\n  width: 100vw;\n}\n\nform.location-search-form {\n  margin: 16vh;\n}\n\nform.location-search-form input {\n  background-color: rgba(242,243,247,1);\n}\n\nform.location-search-form input[type=\"text\"] {\n  padding: 12px;\n  height: 30px;\n  width: 20rem;\n  margin: 0 24px;\n  font-size: 24px;\n}\n\nform.location-search-form input::placeholder,\nform.location-search-form input[type=\"submit\"]:disabled {\n  color: rgba(107,146,179,1);\n}\n\nform.location-search-form input[type=\"submit\"] {\n  padding: 11px;\n  font-size: 24px;\n  margin: 9px 1rem;\n}\n\nsection#footer-container {\n  display: flex;\n  flex-direction: column;\n  position: absolute;\n  bottom: 0;\n  left: 50vw;\n  width: 90vw;\n  margin-left: -45vw;\n  background-color: rgba(242,243,247,0.8);\n  border-radius: 24px 24px 0 0;\n  max-height: 200px;\n  transition: max-height 0.5s;\n}\n\ndiv.view-favorites-container {\n  margin: 54px;\n}\n\ndiv.view-favorites-container h3.favorites-date-time {\n  position: absolute;\n  top: 54px;\n  right: 24px;\n}\n\ndiv.view-favorites-container a.collapse-footer {\n  color: rgba(19,47,71,1);\n}\n\nh3.view-favorites-link,\ndiv.favorite-location-container h4.favorite-location-location {\n  text-decoration: underline;\n  cursor: pointer;\n}\n\nsection#favorites-container {\n  position: relative;\n  display: flex;\n  justify-content: space-between;\n  padding: 24px;\n  height: 40vh;\n  background-color: rgba(19,47,71,1);\n  color: rgba(242, 243, 247, 1);\n  overflow: scroll;\n}\n\ndiv#favorite-locations {\n  display: flex;\n  flex-direction: column;\n  width: 90%;\n}\n\ndiv.favorite-location-container {\n  display: flex;\n  justify-content: space-between;\n}\n\ndiv.favorite-location-container h4 {\n  width: 200px;\n  margin: 6px 24px;\n  text-align: left;\n}\n\ndiv.favorite-location-container h4.favorite-location-temp {\n  width: 100px;\n}\n\ndiv#location-date-container {\n  display: flex;\n  flex-direction: row;\n}\n\ndiv#location-container,\ndiv#date-time-container {\n  width: 50%;\n}\n\ndiv#location-container {\n  text-align: left;\n}\n\ndiv#date-time-container {\n  text-align: right;\n} \n\nh2.city {\n  font-size: 80px;\n  margin: 0 0 0 24px;\n  padding-bottom: 0;\n}\n\nh3.state-country {\n  margin: 0 0 0 24px;\n}\n\nh3.date,\nh3.time {\n  margin: 16px 24px 0 0;\n  font-size: 36px;\n  font-weight: 200;\n}\n\nh3.date {\n  margin-top: 24px;\n}\n\nsection#current-conditions-container {\n  position: absolute;\n  top: 48px;\n  right: 0;\n  width: 300px;\n  max-height: 278px;\n  overflow: hidden;\n  background-color: rgba(242,243,247,0.8);\n  border-radius: 24px 0 0 24px;\n  padding: 0 48px;\n  transition: max-height 0.5s;\n  z-index: 99;\n}\n\nsection#current-conditions-overview-container {\n  padding-top: 32px;\n}\n\nsection#current-conditions-detail-container {\n  padding-bottom: 12px;\n}\n\nh3.current-overview {\n  text-align: right;\n  font-size: 36px;\n  font-weight: 400;\n  margin: 0;\n}\n\ndiv#current-temp-container {\n  display: flex;\n  justify-content: flex-end;\n}\n\nh2.current-temp {\n  font-size: 100px;\n  margin: -16px 0;\n}\n\nh3.feels-like {\n  text-align: right;\n  font-size: 36px;\n  font-weight: 200;\n  margin: 0;\n}\n\ndiv.expand-current-conditions {\n  height: 36px;\n  margin: 0 -48px;\n  background-color: rgba(107,146,179,1);\n  border-radius: 0 0 0 24px;\n}\n\nh4 {\n  font-weight: 200;\n  margin: 8px -16px;\n}\n\nh4.current-conditions {\n  color: rgba(242, 243, 247, 1);\n  text-decoration: underline;\n  cursor: pointer;\n}\n\ndiv.high-low-container {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n\ndiv.high-low-container h4 {\n  margin: 8px 24px;\n}\n\nsection#current-conditions-detail-container h4 {\n  font-size: 22px;\n}\n\nh4.day-summary {\n  text-align: left;\n}\n\ndiv.current-detail-container {\n  display: flex;\n  justify-content: space-between;\n}\n\ndiv.links-container {\n  display: flex;\n  padding: 6px 24px;\n  justify-content: space-between;\n}\n\nsection#change-location-container,\nsection#refresh-confirmation-container,\nsection#add-favorite-confirmation-container {\n  position: relative;\n  height: 300px;\n  background-color: rgba(19,47,71,1); \n}\n\nsection#refresh-confirmation-container h3,\nsection#add-favorite-confirmation-container h3 {\n  color: rgba(242,243,247,1);\n  margin: 112px 48px;\n}\n\na.collapse-footer {\n  position: absolute;\n  top: 24px;\n  right: 24px;\n  color: rgba(242,243,247,1);\n}", ""]);
+	exports.push([module.id, "body {\n  margin: 0;\n  padding: 0;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 24px;\n  text-align: center;\n  font-weight: 300;\n  background-color: rgba(107,146,179,1);\n  background: url(" + __webpack_require__(4) + ");\n  background-repeat: no-repeat;\n  background-size: auto 100vh;\n  color: rgba(19,47,71,1);\n}\n\nh1 {\n  position: relative;\n  top: -3vh;\n  font-size: 60px;\n  z-index: 1;\n  text-align: left;\n  margin: 36px;\n  -webkit-text-stroke: 1px black;\n  color: white;\n  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;\n}\n\n.location-search-container {\n  position: absolute;\n  top: 0;\n  background-color: rgba(19,47,71,1);\n  height: 40vh;\n  width: 100vw;\n}\n\nform.location-search-form {\n  margin: 16vh;\n}\n\nform.location-search-form input {\n  background-color: rgba(242,243,247,1);\n}\n\nform.location-search-form input[type=\"text\"] {\n  padding: 12px;\n  height: 30px;\n  width: 20rem;\n  margin: 0 24px;\n  font-size: 24px;\n}\n\nform.location-search-form input::placeholder,\nform.location-search-form input[type=\"submit\"]:disabled {\n  color: rgba(107,146,179,1);\n}\n\nform.location-search-form input[type=\"submit\"] {\n  padding: 11px;\n  font-size: 24px;\n  margin: 9px 1rem;\n}\n\nsection#footer-container {\n  display: flex;\n  flex-direction: column;\n  position: absolute;\n  bottom: 0;\n  left: 50vw;\n  width: 90vw;\n  margin-left: -45vw;\n  background-color: rgba(242,243,247,0.8);\n  border-radius: 24px 24px 0 0;\n  max-height: 200px;\n  transition: max-height 0.5s;\n}\n\ndiv.view-favorites-container {\n  margin: 54px;\n}\n\ndiv.view-favorites-container h3.favorites-date-time {\n  position: absolute;\n  top: 54px;\n  right: 24px;\n}\n\ndiv.view-favorites-container a.collapse-footer {\n  color: rgba(19,47,71,1);\n}\n\nh3.view-favorites-link,\ndiv.favorite-location-container h4.favorite-location-location,\ndiv.favorite-location-container h4.delete-favorite-link {\n  text-decoration: underline;\n  cursor: pointer;\n}\n\nsection#favorites-container {\n  position: relative;\n  display: flex;\n  justify-content: space-between;\n  padding: 24px;\n  height: 40vh;\n  background-color: rgba(19,47,71,1);\n  color: rgba(242, 243, 247, 1);\n  overflow: scroll;\n}\n\ndiv#favorite-locations {\n  display: flex;\n  flex-direction: column;\n  width: 90%;\n}\n\ndiv.favorite-location-container {\n  display: flex;\n  justify-content: space-between;\n}\n\ndiv.favorite-location-container h4 {\n  width: 200px;\n  margin: 6px 24px;\n  text-align: left;\n}\n\ndiv.favorite-location-container h4.favorite-location-temp {\n  width: 100px;\n}\n\ndiv#location-date-container {\n  display: flex;\n  flex-direction: row;\n}\n\ndiv#location-container,\ndiv#date-time-container {\n  width: 50%;\n}\n\ndiv#location-container {\n  text-align: left;\n}\n\ndiv#date-time-container {\n  text-align: right;\n} \n\nh2.city {\n  font-size: 80px;\n  margin: 0 0 0 24px;\n  padding-bottom: 0;\n}\n\nh3.state-country {\n  margin: 0 0 0 24px;\n}\n\nh3.date,\nh3.time {\n  margin: 16px 24px 0 0;\n  font-size: 36px;\n  font-weight: 200;\n}\n\nh3.date {\n  margin-top: 24px;\n}\n\nsection#current-conditions-container {\n  position: absolute;\n  top: 48px;\n  right: 0;\n  width: 300px;\n  max-height: 278px;\n  overflow: hidden;\n  background-color: rgba(242,243,247,0.8);\n  border-radius: 24px 0 0 24px;\n  padding: 0 48px;\n  transition: max-height 0.5s;\n  z-index: 99;\n}\n\nsection#current-conditions-overview-container {\n  padding-top: 32px;\n}\n\nsection#current-conditions-detail-container {\n  padding-bottom: 12px;\n}\n\nh3.current-overview {\n  text-align: right;\n  font-size: 36px;\n  font-weight: 400;\n  margin: 0;\n}\n\ndiv#current-temp-container {\n  display: flex;\n  justify-content: flex-end;\n}\n\nh2.current-temp {\n  font-size: 100px;\n  margin: -16px 0;\n}\n\nh3.feels-like {\n  text-align: right;\n  font-size: 36px;\n  font-weight: 200;\n  margin: 0;\n}\n\ndiv.expand-current-conditions {\n  height: 36px;\n  margin: 0 -48px;\n  background-color: rgba(107,146,179,1);\n  border-radius: 0 0 0 24px;\n}\n\nh4 {\n  font-weight: 200;\n  margin: 8px -16px;\n}\n\nh4.current-conditions {\n  color: rgba(242, 243, 247, 1);\n  text-decoration: underline;\n  cursor: pointer;\n}\n\ndiv.high-low-container {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n}\n\ndiv.high-low-container h4 {\n  margin: 8px 24px;\n}\n\nsection#current-conditions-detail-container h4 {\n  font-size: 22px;\n}\n\nh4.day-summary {\n  text-align: left;\n}\n\ndiv.current-detail-container {\n  display: flex;\n  justify-content: space-between;\n}\n\ndiv.links-container {\n  display: flex;\n  padding: 6px 24px;\n  justify-content: space-between;\n}\n\nsection#change-location-container,\nsection#refresh-confirmation-container,\nsection#add-favorite-confirmation-container {\n  position: relative;\n  height: 300px;\n  background-color: rgba(19,47,71,1); \n}\n\nsection#refresh-confirmation-container h3,\nsection#add-favorite-confirmation-container h3 {\n  color: rgba(242,243,247,1);\n  margin: 112px 48px;\n}\n\na.collapse-footer {\n  position: absolute;\n  top: 24px;\n  right: 24px;\n  color: rgba(242,243,247,1);\n}", ""]);
 
 	// exports
 
