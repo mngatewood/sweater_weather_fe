@@ -552,7 +552,7 @@
 	  current.apparentTemperature = Math.round(current.apparentTemperature);
 	  current.todayHigh = Math.round(data.attributes.daily[0].temperatureHigh);
 	  current.todayLow = Math.round(data.attributes.daily[0].temperatureLow);
-	  current.humidity = current.humidity * 100 + "%";
+	  current.humidity = (current.humidity * 100).toFixed() + "%";
 	  current.visibility = current.visibility + " miles";
 	  current.uvIndex = getUvIndexLevel(current.uvIndex);
 	  hourlyCleaner(data.attributes.hourly);
@@ -583,7 +583,7 @@
 	    day.day = convertUnixDays(day.time);
 	    day.temperatureMin = Math.round(day.temperatureMin);
 	    day.temperatureMax = Math.round(day.temperatureMax);
-	    day.precipProbability = day.precipProbability * 100 + "%";
+	    day.precipProbability = (day.precipProbability * 100).toFixed() + "%";
 	  });
 	}
 
@@ -611,7 +611,11 @@
 	}
 
 	function convert24HourTime(hours, minutes) {
-	  if (hours > 12) {
+	  if (hours == 0) {
+	    return "12:" + minutes + "AM";
+	  } else if (hours == 12) {
+	    return "12:" + minutes + "PM";
+	  } else if (hours > 12) {
 	    return hours - 12 + ":" + minutes + "PM";
 	  } else {
 	    return hours + ":" + minutes + "AM";
@@ -665,7 +669,7 @@
 	function renderCurrentConditions(data) {
 	  var current = data.attributes.current;
 
-	  $("#app-container").append("<section id=\"current-conditions-container\">\n      <section id=\"current-conditions-overview-container\">\n        <h3 class=\"current-overview\">" + current.summary + "</h3>\n        <div id=\"current-temp-container\">\n          <h2 class=\"current-temp\">" + current.temperature + "&deg;</h2>\n        </div>\n        <h3 class=\"feels-like\">Feels like " + current.apparentTemperature + "&deg;</h3>\n        <div class=\"expand-current-conditions\">\n          <h4 class=\"current-conditions\">Expand Current Conditions</h4>\n        </div>\n      </section>\n      <section id=\"current-conditions-detail-container\">\n        <div class=\"high-low-container\">\n          <h4 class=\"high-temp\"><strong>High: </strong>" + current.todayHigh + "</h4>\n          <h4 class=\"low-temp\"><strong>Low: </strong>" + current.todayLow + "</h4>\n        </div>\n        <h4 class=\"day-summary\"><strong>Today: </strong>" + data.attributes.summary + "</h4>\n        <div class=\"current-detail-container\">\n          <h4 class=\"current-detail-heading\"><strong>Humidity:</strong></h4>\n          <h4 class=\"current-detail-value\">" + current.humidity + "</h4>\n        </div>\n        <div class=\"current-detail-container\">\n          <h4 class=\"current-detail-heading\"><strong>Visibility:</strong></h4>\n          <h4 class=\"current-detail-value\">" + current.visibility + "</h4>\n        </div>\n        <div class=\"current-detail-container\">\n          <h4 class=\"current-detail-heading\"><strong>UV Index:</strong></h4>\n          <h4 class=\"current-detail-value\">" + current.uvIndex + "</h4>\n        </div>\n      </section>\n    </section>");
+	  $("#app-container").append("<section id=\"current-conditions-container\">\n      <section id=\"current-conditions-overview-container\">\n        <h3 class=\"current-overview\">" + current.summary + "</h3>\n        <div id=\"current-temp-container\">\n          <h2 class=\"current-temp\">" + current.temperature + "&deg;</h2>\n        </div>\n        <h3 class=\"feels-like\">Feels like " + current.apparentTemperature + "&deg;</h3>\n        <div class=\"expand-current-conditions\">\n          <h4 class=\"current-conditions\">Expand Current Conditions</h4>\n        </div>\n      </section>\n      <section id=\"current-conditions-detail-container\">\n        <div class=\"high-low-container\">\n          <h4 class=\"high-temp\"><strong>High: </strong>" + current.todayHigh + "&deg;</h4>\n          <h4 class=\"low-temp\"><strong>Low: </strong>" + current.todayLow + "$deg;</h4>\n        </div>\n        <h4 class=\"day-summary\"><strong>Today: </strong>" + data.attributes.summary + "</h4>\n        <div class=\"current-detail-container\">\n          <h4 class=\"current-detail-heading\"><strong>Humidity:</strong></h4>\n          <h4 class=\"current-detail-value\">" + current.humidity + "</h4>\n        </div>\n        <div class=\"current-detail-container\">\n          <h4 class=\"current-detail-heading\"><strong>Visibility:</strong></h4>\n          <h4 class=\"current-detail-value\">" + current.visibility + "</h4>\n        </div>\n        <div class=\"current-detail-container\">\n          <h4 class=\"current-detail-heading\"><strong>UV Index:</strong></h4>\n          <h4 class=\"current-detail-value\">" + current.uvIndex + "</h4>\n        </div>\n      </section>\n    </section>");
 	}
 
 	function renderLocationAndDateTime(data) {
