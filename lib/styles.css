@@ -218,12 +218,20 @@ div.expand-current-conditions {
   border-radius: 0 0 0 24px;
 }
 
+div.expand-forecast-container {
+  height: 36px;
+  margin: -44px 0 0 0; 
+  background-color: rgba(107,146,179,1);
+  border-radius: 24px 24px 0 0;
+}
+
 h4 {
   font-weight: 200;
   margin: 8px -16px;
 }
 
-h4.current-conditions {
+h4.current-conditions,
+h4.expand-forecast-link {
   color: rgba(242, 243, 247, 1);
   text-decoration: underline;
   cursor: pointer;
@@ -277,4 +285,33 @@ a.collapse-footer {
   top: 24px;
   right: 24px;
   color: rgba(242,243,247,1);
+}
+
+section#forecast-container {
+  position: absolute;
+  left: calc(5vw + 24px);
+  width: calc(90vw - 400px);
+  background-color: rgba(242,243,247,0.8);
+  height: 0;
+  transition: height 0.5s;
+}
+
+div.expanded-forecast-container {
+  visibility: hidden;
+}
+
+section.hourly-forecast-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px 48px 24px;
+}
+
+div.hour-forecast-container {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+}
+
+div.hour-forecast-container h5 {
+  margin: 0;
 }
