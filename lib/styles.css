@@ -66,7 +66,8 @@ form.landing-search-form input[type="submit"]:disabled {
   color: rgba(107,146,179,1);
 }
 
-form.location-search-form input[type="submit"] {
+form.location-search-form input[type="submit"],
+form.landing-search-form input[type="submit"] {
   padding: 11px;
   font-size: 24px;
   margin: 9px 12px;
