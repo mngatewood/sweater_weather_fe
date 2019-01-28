@@ -702,7 +702,7 @@
 
 	function renderDailyForecast(forecast) {
 	  forecast.forEach(function (day) {
-	    $(".daily-forecast-container").append("<div class=\"day-forecast-container\">\n        <h4 class=\"daily-day\"><strong>" + day.day + "</strong></h4>\n        <h5 class=\"daily-summary\">" + day.summary + "</h5>\n        <h5 class=\"daily-precip\">Precipitation: " + day.precipProbability + "</h5>\n        <h5>Min: " + day.temperatureMin + "</h5>\n        <h5>Max: " + day.temperatureMax + "</h5>\n      </div>");
+	    $(".daily-forecast-container").append("<div class=\"day-forecast-container\">\n        <h4 class=\"daily-day\"><strong>" + day.day + "</strong></h4>\n        <h5 class=\"daily-summary\">" + day.summary + "</h5>\n        <h5 class=\"daily-precip\">Precipitation: " + day.precipProbability + "</h5>\n        <h5>Min: " + day.temperatureMin + "&deg;</h5>\n        <h5>Max: " + day.temperatureMax + "&deg;</h5>\n      </div>");
 	  });
 	}
 
