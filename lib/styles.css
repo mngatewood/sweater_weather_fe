@@ -146,12 +146,12 @@ div#date-time-container {
 
 h2.city {
   font-size: 80px;
-  margin: -8px 0 -16px 24px;
+  margin: -8px 0 -16px 18px;
   padding-bottom: 0;
 }
 
 h3.state-country {
-  margin: 0 0 0 24px;
+  margin: 0 -3px 0 24px;
 }
 
 h3.date,
@@ -303,7 +303,7 @@ div.expanded-forecast-container {
 section.hourly-forecast-container {
   display: flex;
   justify-content: space-between;
-  padding: 0 24px 24px 24px;
+  padding: 0 24px 12px 24px;
 }
 
 div.hour-forecast-container {
