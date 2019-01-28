@@ -17,21 +17,22 @@ This project was solely built by [Michael Gatewood](https://github.com/mngatewoo
 
 ## Screenshots
 
+
+### Main page with details collapsed
+
 ![Main Page Overview](https://github.com/mngatewood/sweater_weather_fe/blob/master/screenshots/Screen%20Shot%202019-01-27%20at%206.38.44%20PM.png "Main Page (overview)")
 
-Main page with details collapsed
+### Main page with details expanded
 
-![Main Page Details]( "Main Page (details)")
+![Main Page Details](https://github.com/mngatewood/sweater_weather_fe/blob/master/screenshots/Screen%20Shot%202019-01-27%20at%206.39.06%20PM.png "Main Page (details)")
 
-Main page with details expanded
+### Main page with change location expanded
 
-![Main Page Change Location]( "Change Location")
+![Main Page Change Location](https://github.com/mngatewood/sweater_weather_fe/blob/master/screenshots/Screen%20Shot%202019-01-27%20at%206.39.55%20PM.png "Change Location")
 
-Main page with change location expanded
+### Main page with favorites expanded
 
-![Main Page View Favorites]( "View Favorites")
-
-Main page with favorites expanded
+![Main Page View Favorites](https://github.com/mngatewood/sweater_weather_fe/blob/master/screenshots/Screen%20Shot%202019-01-27%20at%206.40.13%20PM.png "View Favorites")
 
 ## Built With
 
