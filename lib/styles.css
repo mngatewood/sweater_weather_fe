@@ -46,7 +46,7 @@ form.landing-search-form {
 }
 
 form.location-search-form input,
-form.landing-search-form {
+form.landing-search-form input {
   background-color: rgba(242,243,247,1);
 }
 
