@@ -43,7 +43,7 @@ form.location-search-form input {
 form.location-search-form input[type="text"] {
   padding: 12px;
   height: 30px;
-  width: 20rem;
+  width: 400px;
   margin: 0 24px;
   font-size: 24px;
 }
@@ -56,7 +56,7 @@ form.location-search-form input[type="submit"]:disabled {
 form.location-search-form input[type="submit"] {
   padding: 11px;
   font-size: 24px;
-  margin: 9px 1rem;
+  margin: 9px 12px;
 }
 
 section#footer-container {
@@ -146,7 +146,7 @@ div#date-time-container {
 
 h2.city {
   font-size: 80px;
-  margin: -8 0 -16 24px;
+  margin: -8px 0 -16px 24px;
   padding-bottom: 0;
 }
 
