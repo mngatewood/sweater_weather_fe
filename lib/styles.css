@@ -303,7 +303,7 @@ div.expanded-forecast-container {
 section.hourly-forecast-container {
   display: flex;
   justify-content: space-between;
-  padding: 0 24px 48px 24px;
+  padding: 0 24px 24px 24px;
 }
 
 div.hour-forecast-container {
@@ -314,4 +314,36 @@ div.hour-forecast-container {
 
 div.hour-forecast-container h5 {
   margin: 0;
+}
+
+section.daily-forecast-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px 24px 24px;
+}
+
+div.day-forecast-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 36px;
+}
+
+div.day-forecast-container h4,
+div.day-forecast-container h5 {
+  width: 50px;
+  margin: 0 24px 0 0;
+}
+
+div.day-forecast-container h4.daily-day {
+  width: 150px;
+  text-align: left;
+}
+
+div.day-forecast-container h5.daily-precip {
+  width: 150px;
+}
+
+div.day-forecast-container h5.daily-summary {
+  width: 30%;
 }
