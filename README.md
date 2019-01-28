@@ -1,79 +1,41 @@
-# Self-Directed Front-End Start Kit
+# Sweater Weather - Front End
 
-## Initial Setup
+This application uses a back-end API built using Ruby on Rails. You can visit the repository for that project [here](https://github.com/mngatewood/sweater_weather).  The production API is [here](https://mngatewood-weather-be.herokuapp.com/)
 
-1. Clone this starter kit repository and rename the repository to anything you'd like in one command:
+## Description/Purpose
 
-  ```shell
-  git clone git@github.com:turingschool-projects/self-directed-fe-starter.git <name of your choice>
-  ```
-2. Change into the new director directory.
+This front-end application was built to interact with an API I made in Ruby on Rails. The application serves up weather data based on user input and currently allows the user to save favorite locations without authentication (for demonstration purposes). A future feature will provide authentication that allows users to register, login, and manage their own favorites.
 
-3. Remove the default remote (origin):
+The production site can be viewed [here](https://mngatewood.github.io/sweater_weather_fe/)
 
-  ```shell
-  git remote rm origin
-  ```
+## Setup
+To run this project locally, `git clone` this repository to your local machine. Once in the project directory, run `npm install` to install the required node modules. `npm start` will load up a server for you to view at `http://localhost:8080`.
 
-4. Create a new repository on GitHub.
+## Contributors
 
-5. Add your new repository remote - **your remote URL and user name will be different in the command below**
+This project was solely built by [Michael Gatewood](https://github.com/mngatewood) with code reviews by [Cory Westerfield](https://github.com/corywest) and [Jordan Whitten](https://github.com/jordanwa1947).
 
-  ```shell
-  git remote add origin git@github.com:<YOUR GITHUB NAME>/<PROJECT NAME>.git
-  ```
+## Screenshots
 
-6. Install the dependencies of the starter kit:
+![Main Page Overview]( "Main Page (overview)")
 
-  ```shell
-  npm install
-  ```
+Main page with details collapsed
 
-7. Add, commit, and push up to your repository:
+![Main Page Details]( "Main Page (details)")
 
-  ```shell
-  git add .
-  git commit -m "Initial commit using starter kit"
-  git push origin master
-  ```
+Main page with details expanded
 
-## Running the Server Locally
+![Main Page Change Location]( "Change Location")
 
-To see your code in action locally, you need to fire up a development server. Use the command:
+Main page with change location expanded
 
-```shell
-npm start
-```
+![Main Page View Favorites]( "View Favorites")
 
-Once the server is running, visit in your browser:
-
-* `http://localhost:8080/` to run your application.
-
-
-## GitHub Pages Setup
-
-This site will be served from GitHub Pages in production.
-
-In order to see your application running on production:
-
-1. From the command line, run `npm run build`.
-
-2. Commit and push your application to GitHub.
-
-3. Visit your repository on Github
-
-4. Go to Settings
-
-5. Under the Github Pages section of Options, select 'master' as your source and click `Save`
-
-Be sure to `npm run build` and commit before each push to master. A few seconds after you push up, you should be able to see your application at <https://your-github-username.github.io/project-name>.
-
+Main page with favorites expanded
 
 ## Built With
 
 * [JavaScript](https://www.javascript.com/)
 * [jQuery](https://jquery.com/)
-* [Express](https://expressjs.com/)
-* [Mocha](https://mochajs.org/)
-* [Chai](https://chaijs.com/)
-
+* HTML
+* CSS
