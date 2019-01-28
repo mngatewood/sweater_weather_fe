@@ -45,11 +45,13 @@ form.landing-search-form {
   margin: 116px;
 }
 
-form.location-search-form input {
+form.location-search-form input,
+form.landing-search-form {
   background-color: rgba(242,243,247,1);
 }
 
-form.location-search-form input[type="text"] {
+form.location-search-form input[type="text"],
+form.landing-search-form input[type="text"] {
   padding: 12px;
   height: 30px;
   width: 400px;
@@ -58,7 +60,9 @@ form.location-search-form input[type="text"] {
 }
 
 form.location-search-form input::placeholder,
-form.location-search-form input[type="submit"]:disabled {
+form.landing-search-form input::placeholder,
+form.location-search-form input[type="submit"]:disabled,
+form.landing-search-form input[type="submit"]:disabled {
   color: rgba(107,146,179,1);
 }
 
