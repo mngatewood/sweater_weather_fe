@@ -6,9 +6,9 @@ body {
   text-align: center;
   font-weight: 300;
   background-color: rgba(107,146,179,1);
-  background: url("./media/denver.jpg");
+  background: url("./media/weather-background.jpg");
   background-repeat: no-repeat;
-  background-size: auto 100vh;
+  background-size: 100vw 100vh;
   color: rgba(19,47,71,1);
 }
 
