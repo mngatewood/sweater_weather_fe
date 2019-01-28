@@ -74,12 +74,12 @@ section#footer-container {
 }
 
 div.view-favorites-container {
-  margin: 54px;
+  margin: 36px;
 }
 
 div.view-favorites-container h3.favorites-date-time {
   position: absolute;
-  top: 54px;
+  top: 36px;
   right: 24px;
 }
 
@@ -98,7 +98,7 @@ section#favorites-container {
   position: relative;
   display: flex;
   justify-content: space-between;
-  height: 40vh;
+  height: 300px;
   background-color: rgba(19,47,71,1);
   color: rgba(242, 243, 247, 1);
   overflow: scroll;
