@@ -17,6 +17,7 @@ This project was solely built by [Michael Gatewood](https://github.com/mngatewoo
 
 ## Screenshots
 
+
 ### Main page with details collapsed
 
 ![Main Page Overview](https://github.com/mngatewood/sweater_weather_fe/blob/master/screenshots/Screen%20Shot%202019-01-27%20at%206.38.44%20PM.png "Main Page (overview)")
